@@ -1,0 +1,79 @@
+<div class="space-y-6 max-w-7xl mx-auto font-sans">
+  
+  <div class="flex items-center justify-between">
+    <div>
+      <h2 class="text-lg font-semibold text-gray-900">Solicitudes Entrantes</h2>
+      <p class="text-sm text-gray-500 mt-1">Alertas geolocalizadas en tu zona de cobertura.</p>
+    </div>
+    <div class="px-3 py-1.5 bg-blue-50 border-[1.5px] border-blue-100 rounded-lg flex items-center gap-2">
+      <svg class="w-4 h-4 text-blue-700 animate-pulse" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+      <span class="text-xs font-mono font-bold tracking-wider text-blue-700 uppercase">Buscando</span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    
+    @for (solicitud of solicitudes(); track solicitud.id) {
+      <div class="bg-white border-[1.5px] border-gray-200 rounded-xl p-5 flex flex-col hover:border-blue-300 transition-colors shadow-sm">
+        
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            @if (solicitud.prioridad === 'Alta') { <div class="w-2 h-2 rounded-full bg-red-600 flex-shrink-0 shadow-[0_0_8px_rgba(220,38,38,0.6)]"></div> }
+            @if (solicitud.prioridad === 'Media') { <div class="w-2 h-2 rounded-full bg-orange-500 flex-shrink-0"></div> }
+            @if (solicitud.prioridad === 'Baja') { <div class="w-2 h-2 rounded-full bg-green-600 flex-shrink-0"></div> }
+            
+            <h3 class="text-sm font-semibold text-gray-900 truncate">{{ solicitud.tipo }}</h3>
+          </div>
+          <span class="px-2.5 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-mono font-medium flex-shrink-0">
+            Pendiente
+          </span>
+        </div>
+        
+        <div class="space-y-2 mb-4 flex-1">
+          <div class="flex items-start gap-2 text-sm text-gray-600">
+            <svg class="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <div class="min-w-0">
+              <span class="block truncate font-medium text-gray-800">{{ solicitud.ubicacion }}</span>
+              <span class="block text-xs mt-0.5 text-blue-600 font-semibold">{{ solicitud.distancia }} de distancia · {{ solicitud.tiempo }}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-gray-600">
+            <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+            <span class="truncate font-mono text-xs">{{ solicitud.vehiculo }}</span>
+          </div>
+        </div>
+        
+        <div class="p-3 bg-blue-50 border-[1.5px] border-blue-100 rounded-lg mb-5">
+          <div class="flex items-center gap-1.5 mb-1.5">
+            <svg class="w-3.5 h-3.5 text-blue-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <p class="text-[10px] font-mono font-bold tracking-wider text-blue-700 uppercase">Análisis IA Multimodal</p>
+          </div>
+          <p class="text-xs text-gray-700 leading-relaxed">{{ solicitud.resumenIA }}</p>
+        </div>
+        
+        <div class="flex gap-2 mt-auto">
+          <button (click)="aceptarSolicitud(solicitud.id)" 
+                  [class]="solicitud.prioridad === 'Alta' ? 'bg-orange-500 hover:bg-orange-600' : 'bg-blue-700 hover:bg-blue-800'"
+                  class="flex-1 px-4 py-2.5 text-white rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            {{ solicitud.prioridad === 'Alta' ? 'Emergencia' : 'Aceptar' }}
+          </button>
+          
+          <button (click)="rechazarSolicitud(solicitud.id)" class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 border-[1.5px] border-gray-200 rounded-lg font-semibold text-sm transition-colors">
+            Ignorar
+          </button>
+        </div>
+
+      </div>
+    }
+
+    @if (solicitudes().length === 0) {
+      <div class="col-span-full py-12 flex flex-col items-center justify-center border-[1.5px] border-dashed border-gray-300 rounded-xl bg-gray-50">
+        <svg class="w-12 h-12 text-gray-400 mb-3" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <p class="text-gray-600 font-medium">No hay solicitudes pendientes</p>
+        <p class="text-xs text-gray-400 mt-1 font-mono tracking-wider">ESPERANDO EVENTOS GPS</p>
+      </div>
+    }
+
+  </div>
+</div>

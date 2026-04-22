@@ -6,6 +6,8 @@ import { AdminLayout } from './features/admin/admin-layout/admin-layout';
 import { Dashboard } from './features/admin/dashboard/dashboard';
 import { Talleres } from './features/admin/talleres/talleres';
 import { CatalogoVehiculos } from './features/admin/catalogo-vehiculos/catalogo-vehiculos';
+import { TallerLayout } from './features/taller/taller-layout/taller-layout';
+import { TallerDashboard } from './features/taller/taller-dashboard/taller-dashboard';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -17,6 +19,16 @@ export const routes: Routes = [
       { path: 'dashboard', component: Dashboard },
       { path: 'talleres', component: Talleres },
       { path: 'vehiculos', component: CatalogoVehiculos },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+    ]
+  },
+
+  {
+    path: 'taller',
+    component: TallerLayout,
+    children: [
+      // Aquí irán las rutas hijas en el siguiente paso
+      { path: 'dashboard', component: TallerDashboard },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
