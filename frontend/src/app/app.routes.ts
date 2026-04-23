@@ -6,9 +6,11 @@ import { AdminLayout } from './features/admin/admin-layout/admin-layout';
 import { Dashboard } from './features/admin/dashboard/dashboard';
 import { Talleres } from './features/admin/talleres/talleres';
 import { CatalogoVehiculos } from './features/admin/catalogo-vehiculos/catalogo-vehiculos';
+import { AdminFinanzas } from './features/admin/admin-finanzas/admin-finanzas';
 import { TallerLayout } from './features/taller/taller-layout/taller-layout';
 import { TallerDashboard } from './features/taller/taller-dashboard/taller-dashboard';
 import { TallerHistorial } from './features/taller/taller-historial/taller-historial';
+import { TallerRecursos } from './features/taller/taller-recursos/taller-recursos';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -20,6 +22,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: Dashboard },
       { path: 'talleres', component: Talleres },
       { path: 'vehiculos', component: CatalogoVehiculos },
+      { path: 'finanzas', component: AdminFinanzas },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
@@ -31,6 +34,7 @@ export const routes: Routes = [
       // Aquí irán las rutas hijas en el siguiente paso
       { path: 'dashboard', component: TallerDashboard },
       { path: 'historial', component: TallerHistorial },
+      { path: 'recursos', component: TallerRecursos },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
